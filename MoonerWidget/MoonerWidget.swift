@@ -31,9 +31,21 @@ struct MoonProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<MoonEntry>) -> Void) {
         let now = Date()
-        let entries: [MoonEntry] = (0..<48).map { hour in
-            let date = now.addingTimeInterval(Double(hour) * 3_600)
-            return MoonEntry(date: date, snapshot: MoonSnapshot(date: date))
+        let horizon = now.addingTimeInterval(48 * 3_600)
+
+        var dates = Set((0..<48).map { hour in
+            now.addingTimeInterval(Double(hour) * 3_600)
+        })
+
+        // Add exact principal-phase moments so the age resets and the phase
+        // name changes on time, instead of waiting for the next hourly entry.
+        let upcoming = MoonSnapshot(date: now).upcomingPhases
+        for event in upcoming where event.date > now && event.date < horizon {
+            dates.insert(event.date)
+        }
+
+        let entries: [MoonEntry] = dates.sorted().map { date in
+            MoonEntry(date: date, snapshot: MoonSnapshot(date: date))
         }
         completion(Timeline(entries: entries, policy: .atEnd))
     }
