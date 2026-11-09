@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2AEF5E5C15A9B5B9DDDFECAC /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */; };
+		6D072954254427ECAB2DFCC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154C1D435DCAA68AC8F0485B /* Assets.xcassets */; };
+		77AEC0F2FDACD10FD8CC3A31 /* MoonWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */; };
+		B694C7EFED7F3CB66AA955C8 /* MoonVisuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */; };
+		BA7BC91D438A5854E44BAEBE /* MoonVisuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */; };
+		D3FA4EC4B6885240319E069C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D251CE0AEFA7F5ED42930E /* ContentView.swift */; };
+		D5D02FF15B1C7E56BB5E2C53 /* MoonerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE4FC7D00697241C1C595 /* MoonerWidget.swift */; };
+		D72E4DBD3DE86160CDAA17E9 /* MoonerWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 63E900C68F1F77DAC8B4323E /* MoonerWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E18CE2BB124AFE29ACA21A10 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */; };
+		E7C2A6680CB61E694E111F35 /* MoonWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1259FE1D799BBDE9B92ECB19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C03AA8F78F4E3FA7A9D59887 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC0AC64E5801B89D3EAC306B;
+			remoteInfo = MoonerWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		800601D0DFC0DB1D15DED7EC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D72E4DBD3DE86160CDAA17E9 /* MoonerWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		154C1D435DCAA68AC8F0485B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		22D251CE0AEFA7F5ED42930E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonVisuals.swift; sourceTree = "<group>"; };
+		63E900C68F1F77DAC8B4323E /* MoonerWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MoonerWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		84FFE4FC7D00697241C1C595 /* MoonerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonerWidget.swift; sourceTree = "<group>"; };
+		90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
+		B4E69EB9BE994381CD17CB14 /* Mooner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mooner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonWidgetContent.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0E5494DB100CB49F2B20C10E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */,
+				382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */,
+				F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		659ABEB03732D7B7D03C4280 = {
+			isa = PBXGroup;
+			children = (
+				E05C25E48406CDC0900FF116 /* Mooner */,
+				7ADF0589D3AEA7856BF84858 /* MoonerWidget */,
+				0E5494DB100CB49F2B20C10E /* Shared */,
+				7170F9E6494E83C2B11FA731 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7170F9E6494E83C2B11FA731 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B4E69EB9BE994381CD17CB14 /* Mooner.app */,
+				63E900C68F1F77DAC8B4323E /* MoonerWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7ADF0589D3AEA7856BF84858 /* MoonerWidget */ = {
+			isa = PBXGroup;
+			children = (
+				84FFE4FC7D00697241C1C595 /* MoonerWidget.swift */,
+			);
+			path = MoonerWidget;
+			sourceTree = "<group>";
+		};
+		E05C25E48406CDC0900FF116 /* Mooner */ = {
+			isa = PBXGroup;
+			children = (
+				154C1D435DCAA68AC8F0485B /* Assets.xcassets */,
+				22D251CE0AEFA7F5ED42930E /* ContentView.swift */,
+			);
+			path = Mooner;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC0AC64E5801B89D3EAC306B /* MoonerWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28DB5A79B0FB18CFE474E6F0 /* Build configuration list for PBXNativeTarget "MoonerWidget" */;
+			buildPhases = (
+				B775B474D303569CAB9E15EC /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MoonerWidget;
+			packageProductDependencies = (
+			);
+			productName = MoonerWidget;
+			productReference = 63E900C68F1F77DAC8B4323E /* MoonerWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		F4656D1BF0E49273991937B1 /* Mooner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CC78D8B8F7944310238BBD3 /* Build configuration list for PBXNativeTarget "Mooner" */;
+			buildPhases = (
+				CBB2CA28741416A8AB46A395 /* Sources */,
+				B3DA6B4D75954B1E4B17E062 /* Resources */,
+				800601D0DFC0DB1D15DED7EC /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC6DB29856433C3D72D4109C /* PBXTargetDependency */,
+			);
+			name = Mooner;
+			packageProductDependencies = (
+			);
+			productName = Mooner;
+			productReference = B4E69EB9BE994381CD17CB14 /* Mooner.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C03AA8F78F4E3FA7A9D59887 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					BC0AC64E5801B89D3EAC306B = {
+						DevelopmentTeam = QZG666BRGC;
+						ProvisioningStyle = Automatic;
+					};
+					F4656D1BF0E49273991937B1 = {
+						DevelopmentTeam = QZG666BRGC;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5B93FB30AD0D4FA771F4519B /* Build configuration list for PBXProject "Mooner" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 659ABEB03732D7B7D03C4280;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7170F9E6494E83C2B11FA731 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F4656D1BF0E49273991937B1 /* Mooner */,
+				BC0AC64E5801B89D3EAC306B /* MoonerWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B3DA6B4D75954B1E4B17E062 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D072954254427ECAB2DFCC5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B775B474D303569CAB9E15EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AEF5E5C15A9B5B9DDDFECAC /* Astronomy.swift in Sources */,
+				B694C7EFED7F3CB66AA955C8 /* MoonVisuals.swift in Sources */,
+				77AEC0F2FDACD10FD8CC3A31 /* MoonWidgetContent.swift in Sources */,
+				D5D02FF15B1C7E56BB5E2C53 /* MoonerWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CBB2CA28741416A8AB46A395 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18CE2BB124AFE29ACA21A10 /* Astronomy.swift in Sources */,
+				D3FA4EC4B6885240319E069C /* ContentView.swift in Sources */,
+				BA7BC91D438A5854E44BAEBE /* MoonVisuals.swift in Sources */,
+				E7C2A6680CB61E694E111F35 /* MoonWidgetContent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EC6DB29856433C3D72D4109C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BC0AC64E5801B89D3EAC306B /* MoonerWidget */;
+			targetProxy = 1259FE1D799BBDE9B92ECB19 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1B10592470B16261259F2B99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = QZG666BRGC;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		4D36EE429C8FF2ED819C791E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Support/MoonerWidget.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Support/MoonerWidget-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suze.Mooner.Widget;
+				PRODUCT_NAME = MoonerWidget;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		538F79BCF556245B9A8F30FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = QZG666BRGC;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6C6ACF07EC66D74FEC18C31B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Support/Mooner.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Support/Mooner-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suze.Mooner;
+				PRODUCT_NAME = Mooner;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E315D8162AABFD00C094736A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Support/Mooner.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Support/Mooner-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suze.Mooner;
+				PRODUCT_NAME = Mooner;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F137DD8254B23DA11AE01B81 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Support/MoonerWidget.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Support/MoonerWidget-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suze.Mooner.Widget;
+				PRODUCT_NAME = MoonerWidget;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		28DB5A79B0FB18CFE474E6F0 /* Build configuration list for PBXNativeTarget "MoonerWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4D36EE429C8FF2ED819C791E /* Debug */,
+				F137DD8254B23DA11AE01B81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3CC78D8B8F7944310238BBD3 /* Build configuration list for PBXNativeTarget "Mooner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C6ACF07EC66D74FEC18C31B /* Debug */,
+				E315D8162AABFD00C094736A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5B93FB30AD0D4FA771F4519B /* Build configuration list for PBXProject "Mooner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B10592470B16261259F2B99 /* Debug */,
+				538F79BCF556245B9A8F30FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C03AA8F78F4E3FA7A9D59887 /* Project object */;
+}
