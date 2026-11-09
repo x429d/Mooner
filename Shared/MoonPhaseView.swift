@@ -40,8 +40,18 @@ struct MoonPhaseView: View {
     }
 
     private var glowOpacity: Double {
-        if systemAccent { return 0.38 }
+        if systemAccent { return isMini ? 0.10 : 0.34 }
         return style == .fullColor ? 0.18 : 0.26
+    }
+
+    private var haloScale: CGFloat {
+        if systemAccent { return isMini ? 1.4 : 2.3 }
+        return 2.0
+    }
+
+    private var haloBlur: CGFloat {
+        if systemAccent { return isMini ? 0.05 : 0.13 }
+        return 0.11
     }
 
     private var resolvedEarthshineOpacity: Double {
@@ -54,9 +64,14 @@ struct MoonPhaseView: View {
 
     var body: some View {
         ZStack {
-            texture
-                .brightness(earthshineBrightness)
-                .opacity(resolvedEarthshineOpacity)
+            // In the native clear/tinted widget appearance, dark pixels turn
+            // into alpha. A full earthshine disc then reads as a full moon, so
+            // the unlit side is left transparent and defined by a rim instead.
+            if !systemAccent {
+                texture
+                    .brightness(earthshineBrightness)
+                    .opacity(resolvedEarthshineOpacity)
+            }
 
             texture
                 .brightness(systemAccent ? 0 : 0.06)
@@ -67,22 +82,32 @@ struct MoonPhaseView: View {
                         .blur(radius: size * 0.045)
                 )
 
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            .clear,
-                            .black.opacity(0.42)
-                        ],
-                        center: .center,
-                        startRadius: size * 0.25,
-                        endRadius: size * 0.5
+            if !systemAccent {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                .clear,
+                                .black.opacity(0.42)
+                            ],
+                            center: .center,
+                            startRadius: size * 0.25,
+                            endRadius: size * 0.5
+                        )
                     )
-                )
-                .blendMode(.multiply)
+                    .blendMode(.multiply)
+            }
 
-            Circle()
-                .strokeBorder(rimLight, lineWidth: 1)
+            if systemAccent {
+                Circle()
+                    .strokeBorder(
+                        .white.opacity(0.58),
+                        lineWidth: isMini ? 0.8 : 1.1
+                    )
+            } else {
+                Circle()
+                    .strokeBorder(rimLight, lineWidth: 1)
+            }
         }
         .compositingGroup()
         .clipShape(Circle())
@@ -107,10 +132,10 @@ struct MoonPhaseView: View {
                     )
                 )
                 .frame(
-                    width: size * (systemAccent ? 2.3 : 2.0),
-                    height: size * (systemAccent ? 2.3 : 2.0)
+                    width: size * haloScale,
+                    height: size * haloScale
                 )
-                .blur(radius: size * (systemAccent ? 0.13 : 0.11))
+                .blur(radius: size * haloBlur)
                 .allowsHitTesting(false)
         }
         .frame(width: size, height: size)
