@@ -175,34 +175,6 @@ struct MoonGlassMaterial: View {
     }
 }
 
-/// Materials are not supported inside the widget's background layer, so the
-/// native widget gets the same cool palette as a rendered gradient instead.
-struct MoonGlassWidgetBackground: View {
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [
-                    Color(red: 0.10, green: 0.14, blue: 0.24),
-                    Color(red: 0.04, green: 0.06, blue: 0.12)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-
-            Color(red: 0.08, green: 0.11, blue: 0.18)
-                .opacity(0.55)
-
-            LinearGradient(
-                colors: [
-                    Color.white.opacity(0.055),
-                    .clear
-                ],
-                startPoint: .topLeading,
-                endPoint: .center
-            )
-        }
-    }
-}
 
 // MARK: - Stars
 

@@ -40,7 +40,8 @@ struct MoonPhaseView: View {
     }
 
     private var glowOpacity: Double {
-        style == .fullColor ? 0.18 : 0.26
+        if systemAccent { return 0.38 }
+        return style == .fullColor ? 0.18 : 0.26
     }
 
     private var resolvedEarthshineOpacity: Double {
@@ -105,8 +106,11 @@ struct MoonPhaseView: View {
                         endRadius: size * 0.95
                     )
                 )
-                .frame(width: size * 2.0, height: size * 2.0)
-                .blur(radius: size * 0.11)
+                .frame(
+                    width: size * (systemAccent ? 2.3 : 2.0),
+                    height: size * (systemAccent ? 2.3 : 2.0)
+                )
+                .blur(radius: size * (systemAccent ? 0.13 : 0.11))
                 .allowsHitTesting(false)
         }
         .frame(width: size, height: size)

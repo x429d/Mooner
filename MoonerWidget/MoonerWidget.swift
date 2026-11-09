@@ -100,7 +100,7 @@ struct MoonWidgetView: View {
             if renderStyle == .fullColor {
                 MoonBackground(size: widgetSize)
             } else {
-                MoonGlassWidgetBackground()
+                Color.clear
             }
         }
         .overlay {
@@ -108,8 +108,8 @@ struct MoonWidgetView: View {
                 .strokeBorder(
                     LinearGradient(
                         colors: [
-                            .white.opacity(0.22),
-                            .white.opacity(0.06)
+                            .white.opacity(0.24),
+                            .white.opacity(0.07)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
