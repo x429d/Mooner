@@ -42,6 +42,9 @@ struct MoonProvider: TimelineProvider {
         let upcoming = MoonSnapshot(date: now).upcomingPhases
         for event in upcoming where event.date > now && event.date < horizon {
             dates.insert(event.date)
+            // One minute later makes sure the trend arrow and age have
+            // crossed the event even if the event estimate lands a hair early.
+            dates.insert(event.date.addingTimeInterval(60))
         }
 
         let entries: [MoonEntry] = dates.sorted().map { date in
@@ -89,15 +92,15 @@ struct MoonWidgetView: View {
     var body: some View {
         MoonWidgetContent(
             snapshot: entry.snapshot,
-            displayDate: entry.date,
             size: widgetSize,
-            style: renderStyle
+            style: renderStyle,
+            systemAccent: renderStyle == .accented
         )
         .containerBackground(for: .widget) {
             if renderStyle == .fullColor {
                 MoonBackground(size: widgetSize)
             } else {
-                Color.clear
+                MoonGlassWidgetBackground()
             }
         }
         .overlay {
@@ -105,8 +108,8 @@ struct MoonWidgetView: View {
                 .strokeBorder(
                     LinearGradient(
                         colors: [
-                            .white.opacity(0.20),
-                            .white.opacity(0.025)
+                            .white.opacity(0.22),
+                            .white.opacity(0.06)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing

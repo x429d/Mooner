@@ -37,12 +37,44 @@ private enum PreviewPhase: String, CaseIterable, Identifiable {
 // MARK: - Content
 
 struct ContentView: View {
-    @State private var selectedPhase: PreviewPhase = .now
-    @State private var previewStyle: MoonRenderStyle = .fullColor
-    @State private var snapshot = MoonSnapshot(date: Date())
+    @State private var selectedPhase: PreviewPhase
+    @State private var previewStyle: MoonRenderStyle
+    @State private var snapshot: MoonSnapshot
     @State private var didReload = false
 
     private let clock = Timer.publish(every: 300, on: .main, in: .common).autoconnect()
+
+    init() {
+        let arguments = ProcessInfo.processInfo.arguments
+        let phaseArgument = arguments
+            .first { $0.hasPrefix("--preview-phase=") }
+            .map { String($0.dropFirst("--preview-phase=".count)) }
+
+        let phase: PreviewPhase
+        switch phaseArgument {
+        case "newMoon": phase = .newMoon
+        case "firstQuarter": phase = .firstQuarter
+        case "fullMoon": phase = .fullMoon
+        case "lastQuarter": phase = .lastQuarter
+        default: phase = .now
+        }
+
+        let style: MoonRenderStyle = arguments.contains("--preview-style=color")
+            ? .fullColor
+            : .accented
+
+        let date: Date
+        if let target = phase.target {
+            date = LunarMath.nextPhase(after: Date(), target: target)
+                .addingTimeInterval(60)
+        } else {
+            date = Date()
+        }
+
+        _selectedPhase = State(initialValue: phase)
+        _previewStyle = State(initialValue: style)
+        _snapshot = State(initialValue: MoonSnapshot(date: date))
+    }
 
     var body: some View {
         ZStack {
@@ -50,26 +82,26 @@ struct ContentView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 header
-                    .padding(.horizontal, 36)
+                    .padding(.horizontal, 40)
 
-                Spacer(minLength: 16)
+                Color.clear.frame(height: 16)
 
                 phasePicker
-                    .padding(.horizontal, 36)
+                    .padding(.horizontal, 40)
 
-                Spacer(minLength: 14)
+                Color.clear.frame(height: 14)
 
                 previewRow
 
-                Spacer(minLength: 18)
+                Spacer(minLength: 16)
 
                 footer
-                    .padding(.horizontal, 36)
+                    .padding(.horizontal, 40)
             }
             .padding(.top, 44)
-            .padding(.bottom, 26)
+            .padding(.bottom, 24)
         }
-        .frame(width: 1_020, height: 770)
+        .frame(width: 1_024, height: 736)
         .preferredColorScheme(.dark)
         .onReceive(clock) { _ in
             guard selectedPhase == .now else { return }
@@ -81,28 +113,13 @@ struct ContentView: View {
 
     private var header: some View {
         HStack(alignment: .center, spacing: 15) {
-            ZStack {
-                Circle()
-                    .fill(
-                        RadialGradient(
-                            colors: [
-                                Color(red: 0.55, green: 0.55, blue: 1.0).opacity(0.22),
-                                .clear
-                            ],
-                            center: .center,
-                            startRadius: 4,
-                            endRadius: 36
-                        )
-                    )
-                    .frame(width: 64, height: 64)
-
-                MoonDisc(phase: 0.32, size: 47, detailed: true, glow: true)
-            }
+            MoonPhaseView(phase: snapshot.phaseFraction, size: 52, style: .fullColor)
+                .frame(width: 60, height: 60)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("Mooner")
-                    .font(.system(size: 31, weight: .bold, design: .rounded))
-                    .tracking(-0.7)
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                    .tracking(-0.6)
 
                 Text("A live moon phase for your Mac desktop.")
                     .font(.system(size: 13, weight: .regular))
@@ -133,6 +150,7 @@ struct ContentView: View {
 
             Text(statusText)
                 .font(.system(size: 11.5, weight: .medium))
+                .monospacedDigit()
                 .foregroundStyle(.white.opacity(0.65))
                 .lineLimit(1)
         }
@@ -145,8 +163,7 @@ struct ContentView: View {
     private var statusText: String {
         let phase = "\(snapshot.name.title) · \(snapshot.illuminationPercent)%"
         if selectedPhase == .now { return "Live · \(phase)" }
-        let date = snapshot.date.formatted(.dateTime.month(.abbreviated).day())
-        return "Preview · \(date) · \(phase)"
+        return "Preview · \(MoonFormat.dayMonth(snapshot.date)) · \(phase)"
     }
 
     // MARK: Phase picker
@@ -205,8 +222,8 @@ struct ContentView: View {
         .buttonStyle(.plain)
         .focusEffectDisabled()
         .help(style == .accented
-            ? "Preview the monochrome glass look macOS uses when widgets are dimmed."
-            : "Preview the full-color widget."
+            ? "Preview the cool cosmic glass material."
+            : "Preview the deep-space color widget."
         )
         .accessibilityLabel("Preview \(title.lowercased()) style")
         .accessibilityAddTraits(isSelected ? .isSelected : [])
@@ -220,13 +237,19 @@ struct ContentView: View {
         } label: {
             HStack(spacing: 7) {
                 if let target = phase.target {
-                    MoonDisc(phase: target, size: 15, detailed: false, glow: false)
+                    MoonPhaseView(
+                        phase: target,
+                        size: 16,
+                        style: .fullColor,
+                        isMini: true,
+                        earthshineOpacity: 0.24
+                    )
                 } else {
                     Circle()
                         .fill(Color(red: 0.45, green: 0.90, blue: 0.62))
                         .frame(width: 5, height: 5)
                         .shadow(color: Color(red: 0.45, green: 0.90, blue: 0.62).opacity(0.8), radius: 3)
-                        .frame(width: 15, height: 15)
+                        .frame(width: 16, height: 16)
                 }
 
                 Text(phase.title)
@@ -254,7 +277,11 @@ struct ContentView: View {
         withAnimation(.easeInOut(duration: 0.18)) {
             selectedPhase = phase
             if let target = phase.target {
-                snapshot = MoonSnapshot(date: LunarMath.nextPhase(after: Date(), target: target))
+                // A minute after the exact event keeps the preview on the
+                // outgoing side of the cycle (waxing after new/first quarter,
+                // waning after full/last quarter) rather than a hair before it.
+                let phaseDate = LunarMath.nextPhase(after: Date(), target: target)
+                snapshot = MoonSnapshot(date: phaseDate.addingTimeInterval(60))
             } else {
                 snapshot = MoonSnapshot(date: Date())
             }
@@ -264,10 +291,10 @@ struct ContentView: View {
     // MARK: Widget previews
 
     private var previewRow: some View {
-        HStack(alignment: .top, spacing: 22) {
-            previewCard(size: .small, width: 170, height: 170, caption: "Small")
-            previewCard(size: .medium, width: 364, height: 170, caption: "Medium")
-            previewCard(size: .large, width: 364, height: 382, caption: "Large")
+        HStack(alignment: .center, spacing: 22) {
+            previewCard(size: .small, width: 158, height: 158, caption: "Small")
+            previewCard(size: .medium, width: 338, height: 158, caption: "Medium")
+            previewCard(size: .large, width: 338, height: 338, caption: "Large")
         }
         .frame(maxWidth: .infinity)
     }
@@ -279,31 +306,28 @@ struct ContentView: View {
         caption: String
     ) -> some View {
         VStack(spacing: 11) {
-            Spacer(minLength: 0)
-
             ZStack {
                 if previewStyle == .fullColor {
                     MoonBackground(size: size)
                 } else {
-                    GlassPreviewBackground()
+                    MoonGlassMaterial()
                 }
 
                 MoonWidgetContent(
                     snapshot: snapshot,
-                    displayDate: snapshot.date,
                     size: size,
                     style: previewStyle
                 )
             }
             .frame(width: width, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 27, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
             .overlay {
-                RoundedRectangle(cornerRadius: 27, style: .continuous)
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .strokeBorder(
                         LinearGradient(
                             colors: [
-                                .white.opacity(0.22),
-                                .white.opacity(0.03)
+                                .white.opacity(0.28),
+                                .white.opacity(0.07)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -311,18 +335,23 @@ struct ContentView: View {
                         lineWidth: 1
                     )
             }
-            .shadow(color: .black.opacity(0.5), radius: 26, x: 0, y: 15)
-            .shadow(color: .black.opacity(0.24), radius: 5, x: 0, y: 2)
+            .shadow(color: .black.opacity(0.45), radius: 26, x: 0, y: 15)
+            .shadow(color: .black.opacity(0.20), radius: 5, x: 0, y: 2)
+            .shadow(
+                color: size == .large
+                    ? Color(red: 0.32, green: 0.48, blue: 0.90).opacity(0.22)
+                    : .clear,
+                radius: 50,
+                x: 0,
+                y: 10
+            )
 
             Text(caption)
                 .font(.system(size: 9.5, weight: .semibold))
                 .tracking(1.4)
                 .textCase(.uppercase)
                 .foregroundStyle(.white.opacity(0.28))
-
-            Spacer(minLength: 0)
         }
-        .frame(width: max(width, 140), height: 412)
     }
 
     // MARK: Footer
@@ -367,6 +396,7 @@ struct ContentView: View {
                     .background(Capsule().fill(.white.opacity(0.91)))
                 }
                 .buttonStyle(.plain)
+                .focusEffectDisabled()
                 .accessibilityLabel("Reload widgets")
 
                 Button {
@@ -381,26 +411,30 @@ struct ContentView: View {
                         .overlay(Capsule().strokeBorder(.white.opacity(0.07), lineWidth: 1))
                 }
                 .buttonStyle(.plain)
+                .focusEffectDisabled()
                 .accessibilityLabel("Quit Mooner")
             }
         }
         .padding(.horizontal, 21)
         .padding(.vertical, 17)
-        .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(.white.opacity(0.042))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
+        .background {
+            MoonGlassMaterial()
+                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
                 .strokeBorder(
                     LinearGradient(
-                        colors: [.white.opacity(0.10), .white.opacity(0.025)],
+                        colors: [
+                            .white.opacity(0.16),
+                            .white.opacity(0.04)
+                        ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
                     lineWidth: 1
                 )
-        )
+        }
     }
 
     private func step(_ number: Int, _ text: String) -> some View {
@@ -418,33 +452,6 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Glass preview
-
-private struct GlassPreviewBackground: View {
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.ultraThinMaterial)
-
-            LinearGradient(
-                colors: [
-                    Color.white.opacity(0.10),
-                    Color(red: 0.92, green: 0.68, blue: 0.45).opacity(0.10),
-                    Color.black.opacity(0.12)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-
-            LinearGradient(
-                colors: [Color.white.opacity(0.05), .clear],
-                startPoint: .top,
-                endPoint: .center
-            )
-        }
-    }
-}
-
 // MARK: - Desktop backdrop
 
 private struct DesktopBackdrop: View {
@@ -452,9 +459,9 @@ private struct DesktopBackdrop: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.045, green: 0.060, blue: 0.115),
-                    Color(red: 0.055, green: 0.064, blue: 0.115),
-                    Color(red: 0.105, green: 0.062, blue: 0.060)
+                    Color(hex: 0x0B0F19),
+                    Color(hex: 0x10182A),
+                    Color(hex: 0x131B2E)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -462,41 +469,42 @@ private struct DesktopBackdrop: View {
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.44, green: 0.47, blue: 0.98).opacity(0.29),
+                    Color(red: 0.22, green: 0.35, blue: 0.76).opacity(0.55),
+                    Color(red: 0.16, green: 0.24, blue: 0.55).opacity(0.20),
                     .clear
                 ],
-                center: UnitPoint(x: 0.08, y: 0.02),
+                center: UnitPoint(x: 0.04, y: 0.0),
                 startRadius: 0,
-                endRadius: 680
+                endRadius: 860
             )
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.98, green: 0.44, blue: 0.24).opacity(0.20),
+                    Color(red: 0.28, green: 0.42, blue: 0.80).opacity(0.26),
                     .clear
                 ],
-                center: UnitPoint(x: 0.94, y: 0.78),
+                center: UnitPoint(x: 0.82, y: 0.24),
                 startRadius: 0,
-                endRadius: 760
+                endRadius: 620
             )
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.16, green: 0.68, blue: 0.64).opacity(0.10),
+                    Color(red: 0.14, green: 0.21, blue: 0.44).opacity(0.18),
                     .clear
                 ],
-                center: UnitPoint(x: 0.58, y: 1.05),
+                center: UnitPoint(x: 0.42, y: 0.46),
                 startRadius: 0,
-                endRadius: 640
+                endRadius: 700
             )
 
             StarField()
-                .opacity(0.55)
+                .opacity(0.42)
 
             LinearGradient(
-                colors: [Color.white.opacity(0.045), .clear],
+                colors: [Color.white.opacity(0.03), .clear],
                 startPoint: .top,
-                endPoint: UnitPoint(x: 0.5, y: 0.45)
+                endPoint: .center
             )
         }
         .ignoresSafeArea()
@@ -513,7 +521,7 @@ struct MoonerApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
-        .defaultSize(width: 1_020, height: 770)
+        .defaultSize(width: 1_024, height: 736)
         .commands {
             CommandGroup(replacing: .newItem) { }
         }
