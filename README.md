@@ -42,6 +42,25 @@ Mooner это учитывает: в системном clear/tinted режим�
 
 ![Mooner в dimmed-режиме, первая четверть](Screenshots/dimmed.jpg)
 
+## Иконка
+
+Иконка рисуется тем же кодом, что и виджеты: текстурированная Луна с earthshine
+и мягким свечением в глубоком космосе внутри macOS-сквиркла. В бандле лежит
+вечное полнолуние (Finder, Launchpad), а запущенное приложение показывает
+в Dock и Cmd-Tab **настоящую текущую фазу**: тайл перерисовывается при запуске,
+каждые полчаса и сразу после выхода из сна (`Mooner/LiveAppIcon.swift`).
+
+Перегенерировать статические PNG иконки всех размеров:
+
+```sh
+swiftc -O Tools/render-icon.swift Shared/MoonVisuals.swift \
+  Shared/MoonPhaseView.swift Shared/MoonAppIcon.swift \
+  -o .build/iconrender -framework AppKit -framework SwiftUI -framework WidgetKit
+.build/iconrender Mooner/Assets.xcassets/AppIcon.appiconset 0.5
+```
+
+Последний аргумент — фаза (0…1); без него 0.5, полнолуние.
+
 ## Установка
 
 1. Соберите приложение в Xcode (схема `Mooner`, macOS 15+) или из терминала:
@@ -78,13 +97,16 @@ open Mooner.xcodeproj
 
 ```
 Mooner/             — приложение-хост с превью всех трёх размеров
+Mooner/LiveAppIcon.swift       — живая фаза Луны на тайле Dock / Cmd-Tab
 MoonerWidget/       — WidgetKit-расширение (TimelineProvider + WidgetBundle)
 Shared/Astronomy.swift         — фаза, освещённость, возраст, даты событий
 Shared/MoonFormatting.swift    — английские числа и даты, countdown до полнолуния
 Shared/MoonPhaseView.swift     — текстурированная сфера, фазовый mask, earthshine, limb darkening
 Shared/MoonVisuals.swift       — фазовый shape, фон, звёзды, glass-материал
 Shared/MoonWidgetContent.swift — layout Small / Medium / Large
+Shared/MoonAppIcon.swift       — artwork иконки приложения (сквиркл, космос, Луна)
 Shared/Assets.xcassets         — текстура Луны
+Tools/render-icon.swift        — CLI-генератор PNG иконки из общего artwork
 ```
 
 Астрономия проверена по эфемеридам (расхождение моментов новолуния/полнолуния — единицы минут,

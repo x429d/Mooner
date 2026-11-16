@@ -28,6 +28,19 @@ struct MoonPhaseView: View {
     /// alpha. Only there do we lift the earthshine to keep the whole disc.
     var systemAccent: Bool = false
 
+    /// Overrides the asset-catalog texture for off-bundle renderers
+    /// (icon generation CLI); widgets and the app use the catalog image.
+    var textureOverride: Image? = nil
+
+    /// Tames the bloom for small canvases like the app icon, where the
+    /// default halo would wash out the whole background.
+    var glowMultiplier: Double = 1
+    var haloScaleMultiplier: CGFloat = 1
+
+    /// Keeps the bloom hugging the disc instead of washing the card centre,
+    /// which would leave the box corners looking vignetted (small/medium).
+    var compactGlow: Bool = false
+
     private var isWaxing: Bool {
         let normalized = phase - floor(phase)
         return normalized < 0.5
@@ -40,16 +53,43 @@ struct MoonPhaseView: View {
     }
 
     private var glowOpacity: Double {
-        if systemAccent { return isMini ? 0.08 : 0.16 }
-        return style == .fullColor ? 0.30 : 0.32
+        let base: Double
+        if systemAccent { base = isMini ? 0.08 : 0.16 }
+        else { base = style == .fullColor ? 0.30 : 0.32 }
+        return base * glowMultiplier
     }
 
     private var haloScale: CGFloat {
-        if systemAccent { return isMini ? 1.4 : 1.8 }
-        return 1.8
+        let base: CGFloat
+        if compactGlow { base = 1.16 }
+        else if systemAccent { base = isMini ? 1.4 : 1.8 }
+        else { base = 1.8 }
+        return base * haloScaleMultiplier
+    }
+
+    private var haloExtent: CGFloat { compactGlow ? 0.56 : 0.95 }
+
+    private var haloStops: [Gradient.Stop] {
+        if compactGlow {
+            return [
+                .init(color: .clear, location: 0),
+                .init(color: .clear, location: 0.88),
+                .init(color: glowColor.opacity(glowOpacity), location: 0.93),
+                .init(color: glowColor.opacity(glowOpacity * 0.25), location: 0.97),
+                .init(color: .clear, location: 1)
+            ]
+        }
+        return [
+            .init(color: .clear, location: 0),
+            .init(color: .clear, location: 0.52),
+            .init(color: glowColor.opacity(glowOpacity), location: 0.62),
+            .init(color: glowColor.opacity(glowOpacity * 0.25), location: 0.80),
+            .init(color: .clear, location: 1)
+        ]
     }
 
     private var haloBlur: CGFloat {
+        if compactGlow { return 0.04 }
         if systemAccent { return isMini ? 0.05 : 0.10 }
         return 0.10
     }
@@ -129,7 +169,7 @@ struct MoonPhaseView: View {
         .clipShape(Circle())
         .shadow(
             color: glowColor.opacity(glowOpacity * 0.7),
-            radius: size * 0.12,
+            radius: size * (compactGlow ? 0.08 : 0.12),
             x: isWaxing ? size * 0.02 : -size * 0.02,
             y: 0
         )
@@ -139,16 +179,10 @@ struct MoonPhaseView: View {
                     // Clear inside the limb so the bloom never washes out the
                     // translucent earthshine side; peaks just outside the disc.
                     RadialGradient(
-                        stops: [
-                            .init(color: .clear, location: 0),
-                            .init(color: .clear, location: 0.52),
-                            .init(color: glowColor.opacity(glowOpacity), location: 0.62),
-                            .init(color: glowColor.opacity(glowOpacity * 0.25), location: 0.80),
-                            .init(color: .clear, location: 1)
-                        ],
+                        stops: haloStops,
                         center: .center,
                         startRadius: 0,
-                        endRadius: size * 0.95
+                        endRadius: size * haloExtent
                     )
                 )
                 .frame(
@@ -163,7 +197,7 @@ struct MoonPhaseView: View {
     }
 
     private var texture: some View {
-        Image("MoonTexture")
+        (textureOverride ?? Image("MoonTexture"))
             .resizable()
             .interpolation(.high)
             .widgetAccentedRenderingMode(.fullColor)

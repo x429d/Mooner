@@ -117,16 +117,6 @@ struct MoonBackground: View {
                     startPoint: .top,
                     endPoint: .center
                 )
-
-                RadialGradient(
-                    colors: [
-                        .clear,
-                        Color.black.opacity(0.22)
-                    ],
-                    center: .center,
-                    startRadius: longestSide * 0.22,
-                    endRadius: longestSide * 0.78
-                )
             }
             .frame(width: dimensions.width, height: dimensions.height)
         }
@@ -181,6 +171,10 @@ struct MoonGlassMaterial: View {
 // MARK: - Stars
 
 struct StarField: View {
+    /// Star radii are tuned for widget sizes; large canvases (app icon)
+    /// scale them up so they stay visible.
+    var scale: CGFloat = 1
+
     private struct Star {
         let x: Double
         let y: Double
@@ -211,8 +205,8 @@ struct StarField: View {
                 let rect = CGRect(
                     x: star.x * size.width,
                     y: star.y * size.height,
-                    width: star.radius,
-                    height: star.radius
+                    width: star.radius * scale,
+                    height: star.radius * scale
                 )
                 context.fill(
                     Path(ellipseIn: rect),

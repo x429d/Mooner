@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		01504AD1607965568FAA7123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA767B315ACC048A66C740D /* Assets.xcassets */; };
+		0F70EB004184F1935BCBB0EE /* LiveAppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03271571782FD6C56F57CAD /* LiveAppIcon.swift */; };
 		1086E1E7F353B449B475E292 /* MoonFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B2B54548AB17901F8807D /* MoonFormatting.swift */; };
 		2AEF5E5C15A9B5B9DDDFECAC /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */; };
 		410635D24233E2407054DB60 /* MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E234201B27DB4EF60B3E87 /* MoonPhaseView.swift */; };
 		6D072954254427ECAB2DFCC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154C1D435DCAA68AC8F0485B /* Assets.xcassets */; };
 		77AEC0F2FDACD10FD8CC3A31 /* MoonWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */; };
+		A5DB01FA8A4DD11803277F95 /* MoonAppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929485B027E90F736F1CAF58 /* MoonAppIcon.swift */; };
 		B19EC5DF09D279016334441A /* MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E234201B27DB4EF60B3E87 /* MoonPhaseView.swift */; };
 		B694C7EFED7F3CB66AA955C8 /* MoonVisuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */; };
 		BA7BC91D438A5854E44BAEBE /* MoonVisuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */; };
@@ -23,6 +25,7 @@
 		DAB761C3172BA5B6466F98AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA767B315ACC048A66C740D /* Assets.xcassets */; };
 		E18CE2BB124AFE29ACA21A10 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */; };
 		E7C2A6680CB61E694E111F35 /* MoonWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */; };
+		F8EA1602366C916014CA694D /* MoonAppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929485B027E90F736F1CAF58 /* MoonAppIcon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +62,9 @@
 		88E234201B27DB4EF60B3E87 /* MoonPhaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhaseView.swift; sourceTree = "<group>"; };
 		8B2B2B54548AB17901F8807D /* MoonFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonFormatting.swift; sourceTree = "<group>"; };
 		90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
+		929485B027E90F736F1CAF58 /* MoonAppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonAppIcon.swift; sourceTree = "<group>"; };
 		B4E69EB9BE994381CD17CB14 /* Mooner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mooner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D03271571782FD6C56F57CAD /* LiveAppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveAppIcon.swift; sourceTree = "<group>"; };
 		F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonWidgetContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +74,7 @@
 			children = (
 				7EA767B315ACC048A66C740D /* Assets.xcassets */,
 				90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */,
+				929485B027E90F736F1CAF58 /* MoonAppIcon.swift */,
 				8B2B2B54548AB17901F8807D /* MoonFormatting.swift */,
 				88E234201B27DB4EF60B3E87 /* MoonPhaseView.swift */,
 				382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */,
@@ -109,6 +115,7 @@
 			children = (
 				154C1D435DCAA68AC8F0485B /* Assets.xcassets */,
 				22D251CE0AEFA7F5ED42930E /* ContentView.swift */,
+				D03271571782FD6C56F57CAD /* LiveAppIcon.swift */,
 			);
 			path = Mooner;
 			sourceTree = "<group>";
@@ -219,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AEF5E5C15A9B5B9DDDFECAC /* Astronomy.swift in Sources */,
+				A5DB01FA8A4DD11803277F95 /* MoonAppIcon.swift in Sources */,
 				1086E1E7F353B449B475E292 /* MoonFormatting.swift in Sources */,
 				B19EC5DF09D279016334441A /* MoonPhaseView.swift in Sources */,
 				B694C7EFED7F3CB66AA955C8 /* MoonVisuals.swift in Sources */,
@@ -233,6 +241,8 @@
 			files = (
 				E18CE2BB124AFE29ACA21A10 /* Astronomy.swift in Sources */,
 				D3FA4EC4B6885240319E069C /* ContentView.swift in Sources */,
+				0F70EB004184F1935BCBB0EE /* LiveAppIcon.swift in Sources */,
+				F8EA1602366C916014CA694D /* MoonAppIcon.swift in Sources */,
 				D9EC5F69B9D9BC4C76847D26 /* MoonFormatting.swift in Sources */,
 				410635D24233E2407054DB60 /* MoonPhaseView.swift in Sources */,
 				BA7BC91D438A5854E44BAEBE /* MoonVisuals.swift in Sources */,

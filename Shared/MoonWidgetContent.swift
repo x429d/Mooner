@@ -37,7 +37,8 @@ private struct SmallMoonWidget: View {
                 phase: snapshot.phaseFraction,
                 size: 84,
                 style: style,
-                systemAccent: systemAccent
+                systemAccent: systemAccent,
+                compactGlow: true
             )
 
             VStack(spacing: 3) {
@@ -76,7 +77,8 @@ private struct MediumMoonWidget: View {
                 phase: snapshot.phaseFraction,
                 size: 124,
                 style: style,
-                systemAccent: systemAccent
+                systemAccent: systemAccent,
+                compactGlow: true
             )
 
             VStack(alignment: .leading, spacing: 5) {

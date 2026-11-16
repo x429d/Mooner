@@ -562,6 +562,14 @@ private struct DesktopBackdrop: View {
 
 @main
 struct MoonerApp: App {
+    init() {
+        DispatchQueue.main.async {
+            MainActor.assumeIsolated {
+                LiveAppIcon.start()
+            }
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
