@@ -150,12 +150,14 @@ struct MoonGlassMaterial: View {
             Rectangle()
                 .fill(.ultraThinMaterial)
 
-            Color(red: 0.10, green: 0.15, blue: 0.28)
-                .opacity(0.32)
+            Color(red: 0.13, green: 0.16, blue: 0.24)
+                .opacity(0.22)
+
+            Color.white.opacity(0.05)
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.34, green: 0.47, blue: 0.84).opacity(0.16),
+                    Color(red: 0.34, green: 0.47, blue: 0.84).opacity(0.12),
                     .clear
                 ],
                 center: .topLeading,
@@ -165,11 +167,11 @@ struct MoonGlassMaterial: View {
 
             LinearGradient(
                 colors: [
-                    Color.white.opacity(0.09),
+                    Color.white.opacity(0.10),
                     .clear
                 ],
-                startPoint: .topLeading,
-                endPoint: .center
+                startPoint: .top,
+                endPoint: .bottom
             )
         }
     }

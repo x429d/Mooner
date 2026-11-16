@@ -34,13 +34,41 @@ private enum PreviewPhase: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - Preview style
+
+/// What the showcase previews: the color widget, the studio glass material,
+/// or the monochrome dimmed appearance macOS uses on the desktop.
+private enum PreviewStyle: String, CaseIterable, Identifiable {
+    case color
+    case glass
+    case dimmed
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .color: return "Color"
+        case .glass: return "Glass"
+        case .dimmed: return "Dimmed"
+        }
+    }
+
+    var renderStyle: MoonRenderStyle {
+        self == .color ? .fullColor : .accented
+    }
+}
+
 // MARK: - Content
 
 struct ContentView: View {
     @State private var selectedPhase: PreviewPhase
-    @State private var previewStyle: MoonRenderStyle
+    @State private var previewStyle: PreviewStyle
     @State private var snapshot: MoonSnapshot
     @State private var didReload = false
+
+    /// Approximates the desktop's dimmed clear/tinted widget appearance —
+    /// monochrome content on system glass. Also via `--preview-dimmed`.
+    private var dimmedSimulation: Bool { previewStyle == .dimmed }
 
     private let clock = Timer.publish(every: 300, on: .main, in: .common).autoconnect()
 
@@ -59,9 +87,18 @@ struct ContentView: View {
         default: phase = .now
         }
 
-        let style: MoonRenderStyle = arguments.contains("--preview-style=color")
-            ? .fullColor
-            : .accented
+        let styleArgument = arguments
+            .first { $0.hasPrefix("--preview-style=") }
+            .map { String($0.dropFirst("--preview-style=".count)) }
+
+        let style: PreviewStyle
+        if arguments.contains("--preview-dimmed") || styleArgument == "dimmed" {
+            style = .dimmed
+        } else if styleArgument == "color" {
+            style = .color
+        } else {
+            style = .glass
+        }
 
         let date: Date
         if let target = phase.target {
@@ -191,13 +228,14 @@ struct ContentView: View {
                     .foregroundStyle(.white.opacity(0.32))
                     .padding(.trailing, 2)
 
-                styleChip(.fullColor, title: "Color")
-                styleChip(.accented, title: "Glass")
+                ForEach(PreviewStyle.allCases) { style in
+                    styleChip(style)
+                }
             }
         }
     }
 
-    private func styleChip(_ style: MoonRenderStyle, title: String) -> some View {
+    private func styleChip(_ style: PreviewStyle) -> some View {
         let isSelected = previewStyle == style
 
         return Button {
@@ -205,7 +243,7 @@ struct ContentView: View {
                 previewStyle = style
             }
         } label: {
-            Text(title)
+            Text(style.title)
                 .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(isSelected ? Color(red: 0.06, green: 0.07, blue: 0.12) : .white.opacity(0.58))
                 .padding(.horizontal, 10)
@@ -221,12 +259,17 @@ struct ContentView: View {
         }
         .buttonStyle(.plain)
         .focusEffectDisabled()
-        .help(style == .accented
-            ? "Preview the cool cosmic glass material."
-            : "Preview the deep-space color widget."
-        )
-        .accessibilityLabel("Preview \(title.lowercased()) style")
+        .help(helpText(for: style))
+        .accessibilityLabel("Preview \(style.title.lowercased()) style")
         .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+
+    private func helpText(for style: PreviewStyle) -> String {
+        switch style {
+        case .color: return "Preview the deep-space color widget."
+        case .glass: return "Preview the cool cosmic glass material."
+        case .dimmed: return "Preview the monochrome dimmed widget macOS shows on the desktop."
+        }
     }
 
     private func phaseChip(_ phase: PreviewPhase) -> some View {
@@ -307,7 +350,7 @@ struct ContentView: View {
     ) -> some View {
         VStack(spacing: 11) {
             ZStack {
-                if previewStyle == .fullColor {
+                if previewStyle == .color {
                     MoonBackground(size: size)
                 } else {
                     MoonGlassMaterial()
@@ -316,29 +359,33 @@ struct ContentView: View {
                 MoonWidgetContent(
                     snapshot: snapshot,
                     size: size,
-                    style: previewStyle
+                    style: previewStyle.renderStyle,
+                    systemAccent: dimmedSimulation
                 )
             }
+            .saturation(dimmedSimulation ? 0 : 1)
             .frame(width: width, height: height)
             .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
             .overlay {
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .strokeBorder(
-                        LinearGradient(
-                            colors: [
-                                .white.opacity(0.28),
-                                .white.opacity(0.07)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1
-                    )
+                if !dimmedSimulation {
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [
+                                    .white.opacity(0.28),
+                                    .white.opacity(0.07)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1
+                        )
+                }
             }
             .shadow(color: .black.opacity(0.45), radius: 26, x: 0, y: 15)
             .shadow(color: .black.opacity(0.20), radius: 5, x: 0, y: 2)
             .shadow(
-                color: size == .large
+                color: size == .large && !dimmedSimulation
                     ? Color(red: 0.32, green: 0.48, blue: 0.90).opacity(0.22)
                     : .clear,
                 radius: 50,
@@ -459,9 +506,9 @@ private struct DesktopBackdrop: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(hex: 0x0B0F19),
-                    Color(hex: 0x10182A),
-                    Color(hex: 0x131B2E)
+                    Color(hex: 0x111A36),
+                    Color(hex: 0x0C1222),
+                    Color(hex: 0x080B13)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -469,8 +516,8 @@ private struct DesktopBackdrop: View {
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.22, green: 0.35, blue: 0.76).opacity(0.55),
-                    Color(red: 0.16, green: 0.24, blue: 0.55).opacity(0.20),
+                    Color(red: 0.22, green: 0.35, blue: 0.76).opacity(0.60),
+                    Color(red: 0.16, green: 0.24, blue: 0.55).opacity(0.22),
                     .clear
                 ],
                 center: UnitPoint(x: 0.04, y: 0.0),
@@ -480,7 +527,7 @@ private struct DesktopBackdrop: View {
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.28, green: 0.42, blue: 0.80).opacity(0.26),
+                    Color(red: 0.28, green: 0.42, blue: 0.80).opacity(0.18),
                     .clear
                 ],
                 center: UnitPoint(x: 0.82, y: 0.24),
@@ -490,7 +537,7 @@ private struct DesktopBackdrop: View {
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.14, green: 0.21, blue: 0.44).opacity(0.18),
+                    Color(red: 0.14, green: 0.21, blue: 0.44).opacity(0.12),
                     .clear
                 ],
                 center: UnitPoint(x: 0.42, y: 0.46),

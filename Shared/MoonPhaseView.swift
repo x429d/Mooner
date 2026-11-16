@@ -40,30 +40,38 @@ struct MoonPhaseView: View {
     }
 
     private var glowOpacity: Double {
-        if systemAccent { return isMini ? 0.10 : 0.34 }
-        return style == .fullColor ? 0.18 : 0.26
+        if systemAccent { return isMini ? 0.08 : 0.16 }
+        return style == .fullColor ? 0.30 : 0.32
     }
 
     private var haloScale: CGFloat {
-        if systemAccent { return isMini ? 1.4 : 2.3 }
-        return 2.0
+        if systemAccent { return isMini ? 1.4 : 1.8 }
+        return 1.8
     }
 
     private var haloBlur: CGFloat {
-        if systemAccent { return isMini ? 0.05 : 0.13 }
-        return 0.11
+        if systemAccent { return isMini ? 0.05 : 0.10 }
+        return 0.10
     }
 
     private var resolvedEarthshineOpacity: Double {
-        systemAccent ? max(earthshineOpacity, 0.5) : earthshineOpacity
+        systemAccent ? max(earthshineOpacity, 0.5) : max(earthshineOpacity, 0.38)
     }
 
     private var earthshineBrightness: Double {
-        systemAccent ? -0.15 : -0.4
+        systemAccent ? -0.15 : -0.45
     }
 
     var body: some View {
         ZStack {
+            // In the native clear/tinted widget appearance, dark pixels turn
+            // into alpha. A whisper of a disc keeps the silhouette readable
+            // against busy wallpapers instead of a bare hole.
+            if systemAccent {
+                Circle()
+                    .fill(.white.opacity(0.06))
+            }
+
             // In the native clear/tinted widget appearance, dark pixels turn
             // into alpha. A full earthshine disc then reads as a full moon, so
             // the unlit side is left transparent and defined by a rim instead.
@@ -73,13 +81,21 @@ struct MoonPhaseView: View {
                     .opacity(resolvedEarthshineOpacity)
             }
 
+            // A frosted base under the lit texture keeps the maria from
+            // turning into translucent holes once luminance becomes alpha.
+            if systemAccent {
+                MoonPhaseMask(phase: phase)
+                    .fill(.white.opacity(0.45))
+                    .blur(radius: size * 0.035)
+            }
+
             texture
-                .brightness(systemAccent ? 0 : 0.06)
-                .contrast(systemAccent ? 1.0 : 1.04)
+                .brightness(systemAccent ? 0.10 : 0.16)
+                .contrast(systemAccent ? 1.05 : 1.06)
                 .mask(
                     MoonPhaseMask(phase: phase)
                         .fill(.white)
-                        .blur(radius: size * 0.045)
+                        .blur(radius: size * 0.035)
                 )
 
             if !systemAccent {
@@ -88,10 +104,10 @@ struct MoonPhaseView: View {
                         RadialGradient(
                             colors: [
                                 .clear,
-                                .black.opacity(0.42)
+                                .black.opacity(0.30)
                             ],
                             center: .center,
-                            startRadius: size * 0.25,
+                            startRadius: size * 0.30,
                             endRadius: size * 0.5
                         )
                     )
@@ -101,8 +117,8 @@ struct MoonPhaseView: View {
             if systemAccent {
                 Circle()
                     .strokeBorder(
-                        .white.opacity(0.58),
-                        lineWidth: isMini ? 0.8 : 1.1
+                        .white.opacity(isMini ? 0.6 : 0.42),
+                        lineWidth: isMini ? 1.0 : 1.1
                     )
             } else {
                 Circle()
@@ -112,22 +128,26 @@ struct MoonPhaseView: View {
         .compositingGroup()
         .clipShape(Circle())
         .shadow(
-            color: glowColor.opacity(glowOpacity * 0.55),
-            radius: size * 0.10,
+            color: glowColor.opacity(glowOpacity * 0.7),
+            radius: size * 0.12,
             x: isWaxing ? size * 0.02 : -size * 0.02,
             y: 0
         )
         .background(alignment: .center) {
             Circle()
                 .fill(
+                    // Clear inside the limb so the bloom never washes out the
+                    // translucent earthshine side; peaks just outside the disc.
                     RadialGradient(
-                        colors: [
-                            glowColor.opacity(glowOpacity),
-                            glowColor.opacity(glowOpacity * 0.22),
-                            .clear
+                        stops: [
+                            .init(color: .clear, location: 0),
+                            .init(color: .clear, location: 0.52),
+                            .init(color: glowColor.opacity(glowOpacity), location: 0.62),
+                            .init(color: glowColor.opacity(glowOpacity * 0.25), location: 0.80),
+                            .init(color: .clear, location: 1)
                         ],
                         center: .center,
-                        startRadius: size * 0.30,
+                        startRadius: 0,
                         endRadius: size * 0.95
                     )
                 )

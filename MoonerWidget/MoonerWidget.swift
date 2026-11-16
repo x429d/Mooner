@@ -104,20 +104,23 @@ struct MoonWidgetView: View {
             }
         }
         .overlay {
-            ContainerRelativeShape()
-                .strokeBorder(
-                    LinearGradient(
-                        colors: [
-                            .white.opacity(0.24),
-                            .white.opacity(0.07)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 1
-                )
+            // In clear/tinted mode macOS draws the glass container edge
+            // itself; an extra ring here would read as a double border.
+            if renderStyle == .fullColor {
+                ContainerRelativeShape()
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.24),
+                                .white.opacity(0.07)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            }
         }
-
     }
 }
 

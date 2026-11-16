@@ -32,7 +32,7 @@ private struct SmallMoonWidget: View {
     let systemAccent: Bool
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             MoonPhaseView(
                 phase: snapshot.phaseFraction,
                 size: 84,
@@ -42,12 +42,12 @@ private struct SmallMoonWidget: View {
 
             VStack(spacing: 3) {
                 Text(snapshot.name.title)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
 
                 Text("\(snapshot.illuminationPercent)% · \(snapshot.trendWord) \(snapshot.trendArrow)")
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 11.5, weight: .medium))
                     .monospacedDigit()
                     .foregroundStyle(.white.opacity(0.6))
                     .lineLimit(1)
@@ -74,12 +74,12 @@ private struct MediumMoonWidget: View {
         HStack(spacing: 18) {
             MoonPhaseView(
                 phase: snapshot.phaseFraction,
-                size: 116,
+                size: 124,
                 style: style,
                 systemAccent: systemAccent
             )
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text("\(snapshot.trendWord.uppercased()) · DAY \(snapshot.ageText)")
                     .font(.system(size: 10, weight: .semibold))
                     .tracking(0.8)
@@ -88,16 +88,37 @@ private struct MediumMoonWidget: View {
                     .lineLimit(1)
 
                 Text(snapshot.name.title)
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.system(size: 25, weight: .bold))
                     .lineLimit(1)
                     .minimumScaleFactor(0.85)
 
-                Spacer(minLength: 4)
+                // The large widget's forecast, text-only: the column beside
+                // the moon is too narrow for mini discs without truncation.
+                // Leading-aligned so it lines up with the title and metrics.
+                HStack(alignment: .top, spacing: 14) {
+                    ForEach(Array(snapshot.forecastPhases.prefix(3))) { event in
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(event.kind.forecastTitle)
+                                .font(.system(size: 9, weight: .bold))
+                                .tracking(0.5)
+                                .foregroundStyle(.white.opacity(0.85))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
+
+                            Text(MoonFormat.dayMonth(event.date))
+                                .font(.system(size: 10.5, weight: .medium))
+                                .monospacedDigit()
+                                .foregroundStyle(.white.opacity(0.55))
+                                .lineLimit(1)
+                        }
+                    }
+                }
+                .padding(.top, 2)
 
                 Rectangle()
                     .fill(.white.opacity(0.1))
                     .frame(height: 1)
-                    .padding(.vertical, 4)
+                    .padding(.vertical, 2)
 
                 HStack(alignment: .top, spacing: 12) {
                     metric(title: "Illumination", value: "\(snapshot.illuminationPercent)%")
@@ -109,7 +130,7 @@ private struct MediumMoonWidget: View {
             }
             .frame(maxHeight: .infinity)
         }
-        .padding(16)
+        .padding(13)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
             "\(snapshot.name.title), \(snapshot.illuminationPercent) percent illuminated, \(snapshot.fullMoonPhrase)"
@@ -159,19 +180,19 @@ private struct LargeMoonWidget: View {
                     .foregroundStyle(.white.opacity(0.55))
             }
 
-            Spacer(minLength: 6)
+            Spacer(minLength: 4)
 
             MoonPhaseView(
                 phase: snapshot.phaseFraction,
-                size: 142,
+                size: 150,
                 style: style,
                 systemAccent: systemAccent
             )
 
-            Spacer(minLength: 8)
+            Spacer(minLength: 6)
 
             Text(snapshot.name.title)
-                .font(.system(size: 22, weight: .bold))
+                .font(.system(size: 24, weight: .bold))
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
 
@@ -183,7 +204,7 @@ private struct LargeMoonWidget: View {
                 .minimumScaleFactor(0.85)
                 .padding(.top, 4)
 
-            Spacer(minLength: 10)
+            Spacer(minLength: 8)
 
             Rectangle()
                 .fill(.white.opacity(0.1))
@@ -196,7 +217,7 @@ private struct LargeMoonWidget: View {
             }
             .padding(.top, 10)
         }
-        .padding(18)
+        .padding(16)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
             "\(snapshot.name.title), \(snapshot.illuminationPercent) percent illuminated, \(snapshot.fullMoonPhrase)"
