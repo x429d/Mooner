@@ -5,7 +5,7 @@ options:
     macOS: "15.0"
   createIntermediateGroups: true
   groupSortPosition: top
-  xcodeVersion: "27.0"
+  xcodeVersion: "16.0"
 
 configs:
   Debug: debug
@@ -15,7 +15,8 @@ settings:
   base:
     SWIFT_VERSION: "5.0"
     MACOSX_DEPLOYMENT_TARGET: "15.0"
-    DEVELOPMENT_TEAM: QZG666BRGC
+    # No team committed: contributors pick their own in Xcode or pass
+    # DEVELOPMENT_TEAM=… / CODE_SIGNING_ALLOWED=NO on the command line.
     CODE_SIGN_STYLE: Automatic
     ENABLE_HARDENED_RUNTIME: YES
     SWIFT_STRICT_CONCURRENCY: minimal

@@ -1,0 +1,20 @@
+# Asset license
+
+The MIT license in `LICENSE` covers the source code of Mooner.
+The bundled lunar texture is a third-party work with its own license:
+
+## Moon texture
+
+- File: `Shared/Assets.xcassets/MoonTexture.imageset/moon-texture.jpg`
+- Source: [FullMoon2010.jpg](https://commons.wikimedia.org/wiki/File:FullMoon2010.jpg)
+  by Gregory H. Revera
+- License: [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/)
+- Modifications: cropped and resized for the widget.
+
+The texture (including this cropped/resized adaptation) remains under
+CC BY-SA 3.0. If you redistribute Mooner or derivatives, keep the attribution
+above and share the texture under the same license. The rest of the project
+(code, layouts, icon artwork generated from the texture) is MIT; the icon
+artwork embeds the texture and therefore inherits its ShareAlike terms.
+
+Full legal code: https://creativecommons.org/licenses/by-sa/3.0/legalcode
