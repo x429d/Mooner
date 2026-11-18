@@ -31,6 +31,31 @@ Useful launch arguments for visual work (see README for the full list):
 To refresh desktop widgets after installing a new build over
 `/Applications/Mooner.app`, restart the widget daemon: `killall chronod`.
 
+## Testing
+
+```sh
+xcodebuild -project Mooner.xcodeproj -scheme Mooner \
+  -configuration Debug -derivedDataPath .build/dd \
+  -destination 'platform=macOS' test
+```
+
+The suite launches the host app briefly; on CI sign ad-hoc with
+`CODE_SIGN_IDENTITY=-`. It covers:
+
+- Golden ephemeris moments for 2026 (±10 min: Meeus' truncated series keep
+  the error within a few minutes of published ephemerides — timeanddate.com
+  or USNO; mind the timezone when you add a case).
+- Astronomy invariants across a century of seeded dates: ranges, event
+  ordering, cycle periodicity.
+- Phase-name boundaries and snapshot integration.
+- Phase-shape geometry: no lit area at new moon, half disc at quarters,
+  mirrored waning, the shadow lune complementing the lit one.
+- The English formatting rules (decimal point, day-month order, countdown
+  and full-moon phrases).
+
+When fixing an astronomy bug, add the failing golden case first, then fix
+the formulas.
+
 ## Guidelines
 
 - Keep the project dependency-free: SwiftUI + WidgetKit + Foundation only.
@@ -43,6 +68,12 @@ To refresh desktop widgets after installing a new build over
 - Visual changes: verify with screenshots of all three styles
   (Color / Glass / Dimmed) and all three sizes; the dimmed mode maps dark
   pixels to alpha, so check it separately.
+- The icon PNGs are generated with `Tools/render-icon.swift` (see README).
+  ImageRenderer output is **not byte-identical across Xcode/SDK versions**:
+  regenerate only on purpose, review the result visually, and don't commit
+  incidental byte churn from a regenerate-only run.
+- Keep new code Swift 6 clean: the project builds in Swift 6 language mode
+  with complete concurrency checking.
 - Commit messages: English, [Conventional Commits](https://www.conventionalcommits.org/)
   (`feat(widget): …`, `fix(ui): …`, `docs: …`).
 - Keep PRs focused; include before/after screenshots for visual changes.

@@ -11,9 +11,11 @@
 		0F70EB004184F1935BCBB0EE /* LiveAppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03271571782FD6C56F57CAD /* LiveAppIcon.swift */; };
 		1086E1E7F353B449B475E292 /* MoonFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B2B54548AB17901F8807D /* MoonFormatting.swift */; };
 		2AEF5E5C15A9B5B9DDDFECAC /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */; };
+		30A3F03FF278EDC8D4C4E0FA /* AstronomyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABCE07617D3E35A4092F1F0 /* AstronomyTests.swift */; };
 		410635D24233E2407054DB60 /* MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E234201B27DB4EF60B3E87 /* MoonPhaseView.swift */; };
 		6D072954254427ECAB2DFCC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 154C1D435DCAA68AC8F0485B /* Assets.xcassets */; };
 		77AEC0F2FDACD10FD8CC3A31 /* MoonWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */; };
+		8AEBEBA54E1960919F1A1A47 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AC2EEA20FCC6192B47C595 /* TestSupport.swift */; };
 		A5DB01FA8A4DD11803277F95 /* MoonAppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929485B027E90F736F1CAF58 /* MoonAppIcon.swift */; };
 		B19EC5DF09D279016334441A /* MoonPhaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E234201B27DB4EF60B3E87 /* MoonPhaseView.swift */; };
 		B694C7EFED7F3CB66AA955C8 /* MoonVisuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */; };
@@ -26,6 +28,7 @@
 		E18CE2BB124AFE29ACA21A10 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */; };
 		E7C2A6680CB61E694E111F35 /* MoonWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */; };
 		F8EA1602366C916014CA694D /* MoonAppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929485B027E90F736F1CAF58 /* MoonAppIcon.swift */; };
+		FD56DCF115DD8ED83897F699 /* VisualsAndFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFC95E2321B30244641B8 /* VisualsAndFormattingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +38,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BC0AC64E5801B89D3EAC306B;
 			remoteInfo = MoonerWidget;
+		};
+		C67200B6C54EB09C34E26E61 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C03AA8F78F4E3FA7A9D59887 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4656D1BF0E49273991937B1;
+			remoteInfo = Mooner;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -56,6 +66,7 @@
 		154C1D435DCAA68AC8F0485B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22D251CE0AEFA7F5ED42930E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		382E01C3B324C15A9E06D0FA /* MoonVisuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonVisuals.swift; sourceTree = "<group>"; };
+		4DBCFC95E2321B30244641B8 /* VisualsAndFormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualsAndFormattingTests.swift; sourceTree = "<group>"; };
 		63E900C68F1F77DAC8B4323E /* MoonerWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MoonerWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA767B315ACC048A66C740D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84FFE4FC7D00697241C1C595 /* MoonerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonerWidget.swift; sourceTree = "<group>"; };
@@ -64,6 +75,9 @@
 		90F6740A560B5FB2C8DF6E2B /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
 		929485B027E90F736F1CAF58 /* MoonAppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonAppIcon.swift; sourceTree = "<group>"; };
 		B4E69EB9BE994381CD17CB14 /* Mooner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mooner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7AC2EEA20FCC6192B47C595 /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		CABCE07617D3E35A4092F1F0 /* AstronomyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstronomyTests.swift; sourceTree = "<group>"; };
+		CC31E174B26F31D6AD52E10D /* MoonerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoonerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D03271571782FD6C56F57CAD /* LiveAppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveAppIcon.swift; sourceTree = "<group>"; };
 		F2997CF554C97F8EA0BD14DF /* MoonWidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonWidgetContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,16 +101,28 @@
 			isa = PBXGroup;
 			children = (
 				E05C25E48406CDC0900FF116 /* Mooner */,
+				6E32276C88E3AE7DC3D76F42 /* MoonerTests */,
 				7ADF0589D3AEA7856BF84858 /* MoonerWidget */,
 				0E5494DB100CB49F2B20C10E /* Shared */,
 				7170F9E6494E83C2B11FA731 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		6E32276C88E3AE7DC3D76F42 /* MoonerTests */ = {
+			isa = PBXGroup;
+			children = (
+				CABCE07617D3E35A4092F1F0 /* AstronomyTests.swift */,
+				B7AC2EEA20FCC6192B47C595 /* TestSupport.swift */,
+				4DBCFC95E2321B30244641B8 /* VisualsAndFormattingTests.swift */,
+			);
+			path = MoonerTests;
+			sourceTree = "<group>";
+		};
 		7170F9E6494E83C2B11FA731 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				B4E69EB9BE994381CD17CB14 /* Mooner.app */,
+				CC31E174B26F31D6AD52E10D /* MoonerTests.xctest */,
 				63E900C68F1F77DAC8B4323E /* MoonerWidget.appex */,
 			);
 			name = Products;
@@ -123,6 +149,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7B0FC811F06E8EAB51F997CD /* MoonerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 45B125EE25823F98BD335C81 /* Build configuration list for PBXNativeTarget "MoonerTests" */;
+			buildPhases = (
+				A2A764CA052FAE27E043D499 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0AD064072AD2F0E90AF3DB27 /* PBXTargetDependency */,
+			);
+			name = MoonerTests;
+			packageProductDependencies = (
+			);
+			productName = MoonerTests;
+			productReference = CC31E174B26F31D6AD52E10D /* MoonerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BC0AC64E5801B89D3EAC306B /* MoonerWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28DB5A79B0FB18CFE474E6F0 /* Build configuration list for PBXNativeTarget "MoonerWidget" */;
@@ -170,6 +214,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					7B0FC811F06E8EAB51F997CD = {
+						ProvisioningStyle = Automatic;
+					};
 					BC0AC64E5801B89D3EAC306B = {
 						ProvisioningStyle = Automatic;
 					};
@@ -194,6 +241,7 @@
 			targets = (
 				F4656D1BF0E49273991937B1 /* Mooner */,
 				BC0AC64E5801B89D3EAC306B /* MoonerWidget */,
+				7B0FC811F06E8EAB51F997CD /* MoonerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -219,6 +267,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A2A764CA052FAE27E043D499 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30A3F03FF278EDC8D4C4E0FA /* AstronomyTests.swift in Sources */,
+				8AEBEBA54E1960919F1A1A47 /* TestSupport.swift in Sources */,
+				FD56DCF115DD8ED83897F699 /* VisualsAndFormattingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B775B474D303569CAB9E15EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -251,6 +309,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0AD064072AD2F0E90AF3DB27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4656D1BF0E49273991937B1 /* Mooner */;
+			targetProxy = C67200B6C54EB09C34E26E61 /* PBXContainerItemProxy */;
+		};
 		EC6DB29856433C3D72D4109C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BC0AC64E5801B89D3EAC306B /* MoonerWidget */;
@@ -321,8 +384,8 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_STRICT_CONCURRENCY = minimal;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -403,8 +466,8 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_STRICT_CONCURRENCY = minimal;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -428,6 +491,40 @@
 				SDKROOT = macosx;
 			};
 			name = Debug;
+		};
+		9CCFD50CB4025709C83BF7F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.suze.MoonerTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mooner.app/Contents/MacOS/Mooner";
+			};
+			name = Debug;
+		};
+		C531701081015424AA698DEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.suze.MoonerTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mooner.app/Contents/MacOS/Mooner";
+			};
+			name = Release;
 		};
 		E315D8162AABFD00C094736A /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -489,6 +586,15 @@
 			buildConfigurations = (
 				6C6ACF07EC66D74FEC18C31B /* Debug */,
 				E315D8162AABFD00C094736A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		45B125EE25823F98BD335C81 /* Build configuration list for PBXNativeTarget "MoonerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CCFD50CB4025709C83BF7F2 /* Debug */,
+				C531701081015424AA698DEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

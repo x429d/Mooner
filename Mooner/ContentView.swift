@@ -427,7 +427,8 @@ struct ContentView: View {
                 Button {
                     WidgetCenter.shared.reloadAllTimelines()
                     didReload = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .seconds(1.8))
                         didReload = false
                     }
                 } label: {

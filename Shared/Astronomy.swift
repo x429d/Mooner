@@ -323,17 +323,6 @@ enum MoonPhaseName: String, CaseIterable, Sendable {
         }
     }
 
-    /// The exact cycle position represented by this principal phase.
-    var targetFraction: Double {
-        switch self {
-        case .newMoon: return 0
-        case .firstQuarter: return 0.25
-        case .fullMoon: return 0.5
-        case .lastQuarter: return 0.75
-        default: return 0
-        }
-    }
-
     static func current(for fraction: Double) -> MoonPhaseName {
         let phase = fraction - floor(fraction)
         if phase < 0.01 || phase >= 0.99 { return .newMoon }
@@ -349,6 +338,10 @@ enum MoonPhaseName: String, CaseIterable, Sendable {
 
 struct MoonPhaseEvent: Identifiable, Sendable {
     let kind: MoonPhaseName
+    /// The cycle fraction this event represents: 0, 0.25, 0.5 or 0.75.
+    /// Stored on the event rather than derived from the name so an
+    /// intermediate phase can never silently render as a new moon.
+    let targetFraction: Double
     let date: Date
 
     var id: String { "\(kind.rawValue)-\(date.timeIntervalSince1970)" }
@@ -379,10 +372,10 @@ struct MoonSnapshot: Sendable {
         age = max(0, date.timeIntervalSince(previousNew) / 86_400)
 
         let events = [
-            MoonPhaseEvent(kind: .newMoon, date: LunarMath.nextPhase(after: date, target: 0)),
-            MoonPhaseEvent(kind: .firstQuarter, date: LunarMath.nextPhase(after: date, target: 0.25)),
-            MoonPhaseEvent(kind: .fullMoon, date: LunarMath.nextPhase(after: date, target: 0.5)),
-            MoonPhaseEvent(kind: .lastQuarter, date: LunarMath.nextPhase(after: date, target: 0.75))
+            MoonPhaseEvent(kind: .newMoon, targetFraction: 0, date: LunarMath.nextPhase(after: date, target: 0)),
+            MoonPhaseEvent(kind: .firstQuarter, targetFraction: 0.25, date: LunarMath.nextPhase(after: date, target: 0.25)),
+            MoonPhaseEvent(kind: .fullMoon, targetFraction: 0.5, date: LunarMath.nextPhase(after: date, target: 0.5)),
+            MoonPhaseEvent(kind: .lastQuarter, targetFraction: 0.75, date: LunarMath.nextPhase(after: date, target: 0.75))
         ].sorted { $0.date < $1.date }
 
         upcomingPhases = Array(events.prefix(4))

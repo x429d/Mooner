@@ -87,10 +87,23 @@ open Mooner.xcodeproj
 The Xcode project is generated — after adding or removing files, run
 `xcodegen generate` again and commit the updated `project.pbxproj`.
 
+Run the test suite (golden ephemeris moments, astronomy invariants,
+phase-shape geometry, formatting):
+
+```sh
+xcodebuild -project Mooner.xcodeproj -scheme Mooner \
+  -configuration Debug -derivedDataPath .build/dd \
+  -destination 'platform=macOS' test
+```
+
+The tests launch the host app briefly; sign ad-hoc on CI with
+`CODE_SIGN_IDENTITY=-`.
+
 ```
 Mooner/                        — host app with previews of all three sizes
 Mooner/LiveAppIcon.swift       — live phase on the Dock / Cmd-Tab tile
 MoonerWidget/                  — WidgetKit extension (TimelineProvider + bundle)
+MoonerTests/                   — ephemeris, geometry and formatting tests
 Shared/Astronomy.swift         — phase, illumination, age, event dates (Meeus)
 Shared/MoonFormatting.swift    — English numbers/dates, full-moon countdown
 Shared/MoonPhaseView.swift     — textured sphere, phase mask, earthshine, limb darkening
@@ -117,6 +130,12 @@ minutes, illumination within fractions of a percent.
 
 Mooner makes no network requests and never asks for your location.
 Everything is computed on device.
+
+## Roadmap
+
+- Localization: the UI and the en_US/en_GB number and date formatting are
+  English-only by design for v1. Making both localizable is a planned
+  follow-up; the astronomy and rendering layers are already locale-free.
 
 ## License
 

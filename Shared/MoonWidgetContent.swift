@@ -98,7 +98,7 @@ private struct MediumMoonWidget: View {
                 // the moon is too narrow for mini discs without truncation.
                 // Leading-aligned so it lines up with the title and metrics.
                 HStack(alignment: .top, spacing: 14) {
-                    ForEach(Array(snapshot.forecastPhases.prefix(3))) { event in
+                    ForEach(Array(snapshot.upcomingPhases.prefix(3))) { event in
                         VStack(alignment: .leading, spacing: 2) {
                             Text(event.kind.forecastTitle)
                                 .font(.system(size: 9, weight: .bold))
@@ -213,7 +213,7 @@ private struct LargeMoonWidget: View {
                 .frame(height: 1)
 
             HStack(spacing: 0) {
-                ForEach(Array(snapshot.forecastPhases.prefix(3))) { event in
+                ForEach(Array(snapshot.upcomingPhases.prefix(3))) { event in
                     ForecastCell(event: event, style: style, systemAccent: systemAccent)
                 }
             }
@@ -237,7 +237,7 @@ private struct ForecastCell: View {
     var body: some View {
         VStack(spacing: 5) {
             MoonPhaseView(
-                phase: event.kind.targetFraction,
+                phase: event.targetFraction,
                 size: 28,
                 style: style,
                 isMini: true,

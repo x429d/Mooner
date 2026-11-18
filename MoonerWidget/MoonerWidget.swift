@@ -63,7 +63,7 @@ struct MoonWidget: Widget {
         StaticConfiguration(kind: kind, provider: MoonProvider()) { entry in
             MoonWidgetView(entry: entry)
         }
-        .configurationDisplayName("Moon")
+        .configurationDisplayName("Mooner")
         .description("The current moon phase, its illumination, and the next lunar milestones.")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
         .contentMarginsDisabled()

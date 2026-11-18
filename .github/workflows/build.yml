@@ -1,4 +1,4 @@
-name: Build
+name: CI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-and-test:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
@@ -17,9 +17,23 @@ jobs:
       - name: Generate project
         run: xcodegen generate
 
-      - name: Build app and widget extension
+      - name: Build (Debug)
         run: |
           xcodebuild -project Mooner.xcodeproj -scheme Mooner \
             -configuration Debug -derivedDataPath .build/dd \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO build
+
+      - name: Build (Release)
+        run: |
+          xcodebuild -project Mooner.xcodeproj -scheme Mooner \
+            -configuration Release -derivedDataPath .build/dd-release \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO build
+
+      - name: Test
+        run: |
+          xcodebuild -project Mooner.xcodeproj -scheme Mooner \
+            -configuration Debug -derivedDataPath .build/dd \
+            -destination 'platform=macOS' \
+            CODE_SIGN_IDENTITY=- test

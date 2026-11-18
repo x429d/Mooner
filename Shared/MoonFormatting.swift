@@ -64,13 +64,4 @@ extension MoonSnapshot {
     var fullMoonCountdownAndDate: String {
         "\(fullMoonCountdown) · \(MoonFormat.dayMonth(nextFullMoon))"
     }
-
-    /// The next phases for the large forecast, skipping the current principal
-    /// phase when the snapshot sits almost exactly on top of it.
-    var forecastPhases: [MoonPhaseEvent] {
-        let twoDays: TimeInterval = 2 * 86_400
-        return upcomingPhases.filter { event in
-            !(event.kind == name && abs(event.date.timeIntervalSince(date)) < twoDays)
-        }
-    }
 }

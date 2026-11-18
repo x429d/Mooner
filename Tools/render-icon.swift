@@ -22,6 +22,16 @@ struct RenderIcon {
         let outDirectory = arguments[1]
         let phase = arguments.count >= 3 ? Double(arguments[2]) ?? 0.5 : 0.5
 
+        do {
+            try FileManager.default.createDirectory(
+                atPath: outDirectory,
+                withIntermediateDirectories: true
+            )
+        } catch {
+            FileHandle.standardError.write(Data("cannot create \(outDirectory): \(error)\n".utf8))
+            exit(1)
+        }
+
         let texturePath = "Shared/Assets.xcassets/MoonTexture.imageset/moon-texture.jpg"
         guard let nsTexture = NSImage(contentsOfFile: texturePath) else {
             FileHandle.standardError.write(Data("cannot read \(texturePath)\n".utf8))
