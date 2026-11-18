@@ -8,8 +8,8 @@ A live moon phase widget for your Mac desktop. Three sizes, no internet, no loca
 
 - **The real current phase** — computed locally with Jean Meeus' formulas
   (*Astronomical Algorithms*), accurate to a fraction of a percent.
-- **Three widget sizes** — Small, Medium, Large. Medium and Large include the
-  upcoming principal phases with dates; Large adds mini phase discs.
+- **Three widget sizes** — Small, Medium, Large. Medium and Large include
+  upcoming principal phases with mini phase discs and dates.
 - **Honest timeline** — WidgetKit entries every hour for two days ahead, plus
   entries at the exact moments of new moon, quarters and full moon, so names,
   ages and trends flip on time.

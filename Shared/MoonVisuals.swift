@@ -89,33 +89,70 @@ struct MoonBackground: View {
             ZStack {
                 LinearGradient(
                     colors: [
-                        Color(hex: 0x0B0F19),
-                        Color(hex: 0x10182A),
-                        Color(hex: 0x131B2E)
+                        Color(hex: 0x060913),
+                        Color(hex: 0x0B1225),
+                        Color(hex: 0x111C35)
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
 
+                // Deep sapphire atmospheric scatter behind the lunar sphere
                 RadialGradient(
                     colors: [
-                        Color(red: 0.32, green: 0.44, blue: 0.82).opacity(0.18),
+                        Color(red: 0.28, green: 0.44, blue: 0.88).opacity(0.24),
+                        Color(red: 0.18, green: 0.30, blue: 0.66).opacity(0.10),
                         .clear
                     ],
                     center: glowCenter,
                     startRadius: 0,
-                    endRadius: longestSide * 0.78
+                    endRadius: longestSide * 0.76
+                )
+
+                // Warm selenian core glow around the Moon
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.98, green: 0.92, blue: 0.80).opacity(0.065),
+                        .clear
+                    ],
+                    center: glowCenter,
+                    startRadius: 0,
+                    endRadius: longestSide * 0.42
+                )
+
+                // Subtle horizon depth at bottom-trailing
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.20, green: 0.32, blue: 0.68).opacity(0.12),
+                        .clear
+                    ],
+                    center: UnitPoint(x: 0.88, y: 0.92),
+                    startRadius: 0,
+                    endRadius: longestSide * 0.65
                 )
 
                 StarField()
+                    .mask(starFieldMask)
 
+                // Subtle corner vignette for optical depth
+                RadialGradient(
+                    colors: [
+                        .clear,
+                        Color.black.opacity(0.24)
+                    ],
+                    center: .center,
+                    startRadius: longestSide * 0.34,
+                    endRadius: longestSide * 0.82
+                )
+
+                // Top specular glass sheen
                 LinearGradient(
                     colors: [
-                        Color.white.opacity(0.035),
+                        Color.white.opacity(0.045),
                         .clear
                     ],
                     startPoint: .top,
-                    endPoint: .center
+                    endPoint: UnitPoint(x: 0.5, y: 0.42)
                 )
             }
             .frame(width: dimensions.width, height: dimensions.height)
@@ -125,8 +162,49 @@ struct MoonBackground: View {
     private var glowCenter: UnitPoint {
         switch size {
         case .small: return UnitPoint(x: 0.50, y: 0.44)
-        case .medium: return UnitPoint(x: 0.26, y: 0.50)
-        case .large: return UnitPoint(x: 0.50, y: 0.38)
+        case .medium: return UnitPoint(x: 0.23, y: 0.50)
+        case .large: return UnitPoint(x: 0.50, y: 0.36)
+        }
+    }
+
+    /// Attenuates stars in the typography zones so a bright star never
+    /// collides with a letter or middle dot.
+    @ViewBuilder
+    private var starFieldMask: some View {
+        switch size {
+        case .small:
+            LinearGradient(
+                stops: [
+                    .init(color: .white, location: 0.0),
+                    .init(color: .white.opacity(0.85), location: 0.62),
+                    .init(color: .white.opacity(0.18), location: 0.82),
+                    .init(color: .white.opacity(0.08), location: 1.0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        case .medium:
+            LinearGradient(
+                stops: [
+                    .init(color: .white, location: 0.0),
+                    .init(color: .white.opacity(0.90), location: 0.42),
+                    .init(color: .white.opacity(0.22), location: 0.65),
+                    .init(color: .white.opacity(0.15), location: 1.0)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        case .large:
+            LinearGradient(
+                stops: [
+                    .init(color: .white, location: 0.0),
+                    .init(color: .white.opacity(0.92), location: 0.52),
+                    .init(color: .white.opacity(0.20), location: 0.74),
+                    .init(color: .white.opacity(0.12), location: 1.0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
     }
 }
@@ -140,14 +218,14 @@ struct MoonGlassMaterial: View {
             Rectangle()
                 .fill(.ultraThinMaterial)
 
-            Color(red: 0.13, green: 0.16, blue: 0.24)
-                .opacity(0.22)
+            Color(red: 0.11, green: 0.15, blue: 0.24)
+                .opacity(0.26)
 
-            Color.white.opacity(0.05)
+            Color.white.opacity(0.045)
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.34, green: 0.47, blue: 0.84).opacity(0.12),
+                    Color(red: 0.36, green: 0.50, blue: 0.88).opacity(0.15),
                     .clear
                 ],
                 center: .topLeading,
@@ -157,7 +235,8 @@ struct MoonGlassMaterial: View {
 
             LinearGradient(
                 colors: [
-                    Color.white.opacity(0.10),
+                    Color.white.opacity(0.11),
+                    Color.white.opacity(0.02),
                     .clear
                 ],
                 startPoint: .top,
@@ -166,7 +245,6 @@ struct MoonGlassMaterial: View {
         }
     }
 }
-
 
 // MARK: - Stars
 
@@ -180,6 +258,7 @@ struct StarField: View {
         let y: Double
         let radius: Double
         let opacity: Double
+        let tint: Color
     }
 
     private static let stars: [Star] = {
@@ -189,12 +268,29 @@ struct StarField: View {
             return Double(seed >> 11) / Double(1 << 53)
         }
 
-        return (0..<54).map { _ in
-            Star(
-                x: next(),
-                y: next(),
-                radius: 0.35 + next() * 1.25,
-                opacity: 0.08 + next() * 0.42
+        let palette: [Color] = [
+            Color(red: 1.00, green: 0.96, blue: 0.88), // Warm ivory star
+            Color.white,                               // Pure starlight
+            Color(red: 0.82, green: 0.90, blue: 1.00)  // Cool blue-white star
+        ]
+
+        return (0..<62).map { _ in
+            let x = next()
+            let y = next()
+            let sizeRoll = next()
+            let opacityRoll = next()
+            let tintIndex = Int(next() * Double(palette.count)) % palette.count
+
+            // Crisp pinpoint distribution without blurry halos
+            let radius = 0.35 + pow(sizeRoll, 1.65) * 1.15
+            let opacity = 0.08 + opacityRoll * 0.38
+
+            return Star(
+                x: x,
+                y: y,
+                radius: radius,
+                opacity: opacity,
+                tint: palette[tintIndex]
             )
         }
     }()
@@ -202,15 +298,16 @@ struct StarField: View {
     var body: some View {
         Canvas { context, size in
             for star in Self.stars {
+                let r = star.radius * scale
                 let rect = CGRect(
-                    x: star.x * size.width,
-                    y: star.y * size.height,
-                    width: star.radius * scale,
-                    height: star.radius * scale
+                    x: star.x * size.width - r * 0.5,
+                    y: star.y * size.height - r * 0.5,
+                    width: r,
+                    height: r
                 )
                 context.fill(
                     Path(ellipseIn: rect),
-                    with: .color(.white.opacity(star.opacity))
+                    with: .color(star.tint.opacity(star.opacity))
                 )
             }
         }

@@ -108,6 +108,20 @@ struct MoonPhaseShapeTests {
         #expect(shadow.contains(CGPoint(x: 25, y: 50)))
         #expect(!shadow.contains(CGPoint(x: 75, y: 50)))
     }
+
+    @Test("the phase mask pads the sunlit limb past the clip circle so blur only softens the terminator")
+    func maskBleedsPastSunlitLimb() {
+        let newMoonMask = MoonPhaseMask(phase: 0).path(in: rect)
+        #expect(!newMoonMask.contains(CGPoint(x: 75, y: 50)))
+
+        let firstQuarterMask = MoonPhaseMask(phase: 0.25).path(in: rect)
+        #expect(firstQuarterMask.contains(CGPoint(x: 105, y: 50)))
+        #expect(!firstQuarterMask.contains(CGPoint(x: 25, y: 50)))
+
+        let waningQuarterMask = MoonPhaseMask(phase: 0.75).path(in: rect)
+        #expect(waningQuarterMask.contains(CGPoint(x: -5, y: 50)))
+        #expect(!waningQuarterMask.contains(CGPoint(x: 75, y: 50)))
+    }
 }
 
 // MARK: - Formatting

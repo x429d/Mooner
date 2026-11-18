@@ -567,6 +567,7 @@ struct MoonerApp: App {
         DispatchQueue.main.async {
             MainActor.assumeIsolated {
                 LiveAppIcon.start()
+                WidgetCenter.shared.reloadAllTimelines()
             }
         }
     }

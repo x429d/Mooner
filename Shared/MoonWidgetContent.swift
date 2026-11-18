@@ -31,32 +31,70 @@ private struct SmallMoonWidget: View {
     let style: MoonRenderStyle
     let systemAccent: Bool
 
+    private var milestoneText: String {
+        if snapshot.name == .fullMoon {
+            return "Full today"
+        }
+        return "Full \(snapshot.fullMoonCountdown)"
+    }
+
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 0) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("\(snapshot.trendWord.uppercased()) \(snapshot.trendArrow)")
+                    .font(.system(size: 8.5, weight: .semibold))
+                    .tracking(0.8)
+                    .foregroundStyle(.white.opacity(0.54))
+
+                Spacer(minLength: 4)
+
+                Text("DAY \(snapshot.ageText)")
+                    .font(.system(size: 8.5, weight: .semibold))
+                    .tracking(0.8)
+                    .monospacedDigit()
+                    .foregroundStyle(.white.opacity(0.54))
+            }
+
+            Spacer(minLength: 4)
+
             MoonPhaseView(
                 phase: snapshot.phaseFraction,
-                size: 84,
+                size: 78,
                 style: style,
                 systemAccent: systemAccent,
                 compactGlow: true
             )
 
-            VStack(spacing: 3) {
+            Spacer(minLength: 4)
+
+            VStack(spacing: 2.5) {
                 Text(snapshot.name.title)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 15.5, weight: .bold))
+                    .tracking(-0.25)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
 
-                Text("\(snapshot.illuminationPercent)% · \(snapshot.trendWord) \(snapshot.trendArrow)")
-                    .font(.system(size: 11.5, weight: .medium))
-                    .monospacedDigit()
-                    .foregroundStyle(.white.opacity(0.6))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                HStack(spacing: 4) {
+                    Text("\(snapshot.illuminationPercent)%")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white.opacity(0.86))
+
+                    Text("·")
+                        .foregroundStyle(.white.opacity(0.36))
+
+                    Text(milestoneText)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.white.opacity(0.58))
+                }
+                .font(.system(size: 11))
+                .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(14)
+        .padding(.horizontal, 13)
+        .padding(.vertical, 12)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
             "\(snapshot.name.title), \(snapshot.illuminationPercent) percent illuminated, \(snapshot.trendWord)"
@@ -72,88 +110,127 @@ private struct MediumMoonWidget: View {
     let systemAccent: Bool
 
     var body: some View {
-        HStack(spacing: 18) {
+        HStack(spacing: 16) {
             MoonPhaseView(
                 phase: snapshot.phaseFraction,
-                size: 124,
+                size: 112,
                 style: style,
                 systemAccent: systemAccent,
                 compactGlow: true
             )
 
-            VStack(alignment: .leading, spacing: 5) {
-                Text("\(snapshot.trendWord.uppercased()) · DAY \(snapshot.ageText)")
-                    .font(.system(size: 10, weight: .semibold))
-                    .tracking(0.8)
-                    .monospacedDigit()
-                    .foregroundStyle(.white.opacity(0.55))
-                    .lineLimit(1)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text("\(snapshot.trendWord.uppercased()) \(snapshot.trendArrow)")
+                        .font(.system(size: 8.5, weight: .semibold))
+                        .tracking(0.8)
+                        .foregroundStyle(.white.opacity(0.54))
+
+                    Spacer(minLength: 6)
+
+                    Text("DAY \(snapshot.ageText)")
+                        .font(.system(size: 8.5, weight: .semibold))
+                        .tracking(0.8)
+                        .monospacedDigit()
+                        .foregroundStyle(.white.opacity(0.54))
+                }
 
                 Text(snapshot.name.title)
-                    .font(.system(size: 25, weight: .bold))
+                    .font(.system(size: 21, weight: .bold))
+                    .tracking(-0.35)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.85)
+                    .minimumScaleFactor(0.82)
+                    .padding(.top, 1.5)
 
-                // The large widget's forecast, text-only: the column beside
-                // the moon is too narrow for mini discs without truncation.
-                // Leading-aligned so it lines up with the title and metrics.
-                HStack(alignment: .top, spacing: 14) {
-                    ForEach(Array(snapshot.upcomingPhases.prefix(3))) { event in
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(event.kind.forecastTitle)
-                                .font(.system(size: 9, weight: .bold))
-                                .tracking(0.5)
-                                .foregroundStyle(.white.opacity(0.85))
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.7)
+                HStack(spacing: 4) {
+                    Text("\(snapshot.illuminationPercent)% illuminated")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white.opacity(0.84))
 
-                            Text(MoonFormat.dayMonth(event.date))
-                                .font(.system(size: 10.5, weight: .medium))
-                                .monospacedDigit()
-                                .foregroundStyle(.white.opacity(0.55))
-                                .lineLimit(1)
-                        }
-                    }
+                    Text("·")
+                        .foregroundStyle(.white.opacity(0.36))
+
+                    Text("Full \(snapshot.fullMoonCountdown)")
+                        .fontWeight(.medium)
+                        .foregroundStyle(.white.opacity(0.58))
                 }
-                .padding(.top, 2)
+                .font(.system(size: 11))
+                .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
+                .padding(.top, 1.5)
+
+                Spacer(minLength: 4)
 
                 Rectangle()
-                    .fill(.white.opacity(0.1))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.16),
+                                .white.opacity(0.05)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                     .frame(height: 1)
-                    .padding(.vertical, 2)
 
-                HStack(alignment: .top, spacing: 12) {
-                    metric(title: "Illumination", value: "\(snapshot.illuminationPercent)%")
-                        .layoutPriority(0)
+                Spacer(minLength: 5)
 
-                    metric(title: "Full Moon", value: snapshot.fullMoonCountdownAndDate)
-                        .layoutPriority(1)
+                HStack(spacing: 0) {
+                    ForEach(Array(snapshot.upcomingPhases.prefix(3).enumerated()), id: \.element.id) { index, event in
+                        if index > 0 {
+                            Spacer(minLength: 8)
+                        }
+                        MediumForecastCell(
+                            event: event,
+                            isNext: index == 0,
+                            style: style,
+                            systemAccent: systemAccent
+                        )
+                    }
                 }
             }
-            .frame(maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         }
-        .padding(13)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
             "\(snapshot.name.title), \(snapshot.illuminationPercent) percent illuminated, \(snapshot.fullMoonPhrase)"
         )
     }
+}
 
-    private func metric(title: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(title)
-                .font(.system(size: 9, weight: .semibold))
+private struct MediumForecastCell: View {
+    let event: MoonPhaseEvent
+    let isNext: Bool
+    let style: MoonRenderStyle
+    let systemAccent: Bool
+
+    var body: some View {
+        VStack(spacing: 2.5) {
+            MoonPhaseView(
+                phase: event.targetFraction,
+                size: 19,
+                style: style,
+                isMini: true,
+                earthshineOpacity: 0.30,
+                systemAccent: systemAccent
+            )
+
+            Text(event.kind.forecastTitle)
+                .font(.system(size: 8.5, weight: .bold))
                 .tracking(0.4)
-                .textCase(.uppercase)
-                .foregroundStyle(.white.opacity(0.5))
+                .foregroundStyle(.white.opacity(isNext ? 0.94 : 0.80))
                 .lineLimit(1)
-                .fixedSize(horizontal: true, vertical: false)
+                .minimumScaleFactor(0.8)
 
-            Text(value)
-                .font(.system(size: 14, weight: .semibold))
+            Text(MoonFormat.dayMonth(event.date))
+                .font(.system(size: 10, weight: .medium))
                 .monospacedDigit()
+                .foregroundStyle(.white.opacity(isNext ? 0.68 : 0.54))
                 .lineLimit(1)
-                .minimumScaleFactor(0.75)
         }
     }
 }
@@ -168,53 +245,77 @@ private struct LargeMoonWidget: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .firstTextBaseline) {
-                Text("\(snapshot.trendWord.uppercased()) PHASE")
+                Text("\(snapshot.trendWord.uppercased()) PHASE \(snapshot.trendArrow)")
                     .font(.system(size: 10, weight: .semibold))
-                    .tracking(0.8)
-                    .foregroundStyle(.white.opacity(0.55))
+                    .tracking(0.85)
+                    .foregroundStyle(.white.opacity(0.56))
 
                 Spacer(minLength: 8)
 
                 Text("AGE \(snapshot.ageText) DAYS")
                     .font(.system(size: 10, weight: .semibold))
-                    .tracking(0.8)
+                    .tracking(0.85)
                     .monospacedDigit()
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(.white.opacity(0.56))
             }
 
-            Spacer(minLength: 4)
+            Spacer(minLength: 6)
 
             MoonPhaseView(
                 phase: snapshot.phaseFraction,
-                size: 150,
+                size: 148,
                 style: style,
                 systemAccent: systemAccent
             )
 
-            Spacer(minLength: 6)
-
-            Text(snapshot.name.title)
-                .font(.system(size: 24, weight: .bold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.85)
-
-            Text("\(snapshot.illuminationPercent)% illuminated · \(snapshot.fullMoonPhrase)")
-                .font(.system(size: 12.5, weight: .medium))
-                .monospacedDigit()
-                .foregroundStyle(.white.opacity(0.65))
-                .lineLimit(1)
-                .minimumScaleFactor(0.85)
-                .padding(.top, 4)
-
             Spacer(minLength: 8)
 
+            Text(snapshot.name.title)
+                .font(.system(size: 24.5, weight: .bold))
+                .tracking(-0.35)
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
+
+            HStack(spacing: 5) {
+                Text("\(snapshot.illuminationPercent)% illuminated")
+                    .foregroundStyle(.white.opacity(0.84))
+
+                Text("·")
+                    .foregroundStyle(.white.opacity(0.36))
+
+                Text(snapshot.fullMoonPhrase)
+                    .foregroundStyle(.white.opacity(0.60))
+            }
+            .font(.system(size: 12.5, weight: .medium))
+            .monospacedDigit()
+            .lineLimit(1)
+            .minimumScaleFactor(0.85)
+            .padding(.top, 3)
+
+            Spacer(minLength: 9)
+
             Rectangle()
-                .fill(.white.opacity(0.1))
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            .white.opacity(0.04),
+                            .white.opacity(0.16),
+                            .white.opacity(0.04)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
                 .frame(height: 1)
 
             HStack(spacing: 0) {
-                ForEach(Array(snapshot.upcomingPhases.prefix(3))) { event in
-                    ForecastCell(event: event, style: style, systemAccent: systemAccent)
+                ForEach(Array(snapshot.upcomingPhases.prefix(4).enumerated()), id: \.element.id) { index, event in
+                    ForecastCell(
+                        event: event,
+                        isNext: index == 0,
+                        style: style,
+                        systemAccent: systemAccent
+                    )
                 }
             }
             .padding(.top, 10)
@@ -231,31 +332,32 @@ private struct LargeMoonWidget: View {
 
 private struct ForecastCell: View {
     let event: MoonPhaseEvent
+    let isNext: Bool
     let style: MoonRenderStyle
     let systemAccent: Bool
 
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 4.5) {
             MoonPhaseView(
                 phase: event.targetFraction,
-                size: 28,
+                size: 26,
                 style: style,
                 isMini: true,
-                earthshineOpacity: 0.24,
+                earthshineOpacity: 0.30,
                 systemAccent: systemAccent
             )
 
             Text(event.kind.forecastTitle)
-                .font(.system(size: 9.5, weight: .bold))
-                .tracking(0.5)
-                .foregroundStyle(.white.opacity(0.85))
+                .font(.system(size: 9, weight: .bold))
+                .tracking(0.45)
+                .foregroundStyle(.white.opacity(isNext ? 0.95 : 0.82))
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
 
             Text(MoonFormat.dayMonth(event.date))
-                .font(.system(size: 11, weight: .medium))
+                .font(.system(size: 10.5, weight: .medium))
                 .monospacedDigit()
-                .foregroundStyle(.white.opacity(0.55))
+                .foregroundStyle(.white.opacity(isNext ? 0.70 : 0.54))
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
